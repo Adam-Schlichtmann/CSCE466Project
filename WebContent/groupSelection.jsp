@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Transactions</title>
+    <title>Group Selection</title>
     <link rel="stylesheet" href='design.css'>
     <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 </head>
@@ -12,22 +12,21 @@
 
     <ul>
         <li><a href="home.jsp">Home</a></li>
-        <li><a href="groupSelectionServlet">New Transaction</a></li>
+        <li><a class="active" href="groupSelectionServlet">New Transaction</a></li>
         <li><a href="viewTransactions.jsp">View Transactions</a></li>
         <li><a href="monthReview.jsp">Monthly Review</a></li>
         <li style="float:right"><a href="login.jsp">logout</a></li>
     </ul>
 
     <div>
-        <h1>Enter a new Transaction</h1>
-        <form style="text-align:center" action=newTransactionServlet name="newTran">
+        <h1>Select a group</h1>
+        <form style="text-align:center" action=transactionServlet name="search">
 			Select a Group :
-			<select name="user">
-				<c:forEach items ="${users}" var="user">
-					<option value="${user.getUserID()}">${user.getFirstName()}</option>
+			<select name="group">
+				<c:forEach items ="${groups}" var="group">
+					<option value="${group.getGroupID()}">${group.getGroupName()}</option>
 				</c:forEach>
 			</select>
-			$ <input type="text" id="amount" name="amount" placeholder="10.00">
 			<input type=submit value="Search">
 		</form>
     </div>

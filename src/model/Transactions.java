@@ -1,30 +1,49 @@
 package model;
 
+import java.sql.Date;
 import java.util.List;
 
 public class Transactions {
-	private List<Integer> toID;
-	private int fromID;
+	private int tranID;
+	private int userID;
+	private int groupID;
+	private Date tranDate;
 	private double amount;
 	
 	public Transactions() {
 		super();
 	}
 
-	public List<Integer> getToID() {
-		return toID;
+	public int getTranID() {
+		return tranID;
 	}
 
-	public void setToID(List<Integer> toID) {
-		this.toID = toID;
+	public void setTranID(int tranID) {
+		this.tranID = tranID;
 	}
 
-	public int getFromID() {
-		return fromID;
+	public int getUserID() {
+		return userID;
 	}
 
-	public void setFromID(int fromID) {
-		this.fromID = fromID;
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+
+	public int getGroupID() {
+		return groupID;
+	}
+
+	public void setGroupID(int groupID) {
+		this.groupID = groupID;
+	}
+
+	public Date getTranDate() {
+		return tranDate;
+	}
+
+	public void setTranDate(Date tranDate) {
+		this.tranDate = tranDate;
 	}
 
 	public double getAmount() {
@@ -33,6 +52,7 @@ public class Transactions {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
-	}	
+	}
+	
 	
 }

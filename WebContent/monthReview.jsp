@@ -12,7 +12,7 @@
 
     <ul>
         <li><a href="home.jsp">Home</a></li>
-        <li><a href="transaction.jsp">New Transaction</a></li>
+        <li><a href="groupSelectionServlet">New Transaction</a></li>
         <li><a href="viewTransactions.jsp">View Transactions</a></li>
         <li><a class="active" href="monthReview.jsp">Monthly Review</a></li>
         <li style="float:right"><a href="login.jsp">logout</a></li>

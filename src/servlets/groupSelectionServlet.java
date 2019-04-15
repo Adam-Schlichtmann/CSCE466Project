@@ -13,20 +13,18 @@ import javax.servlet.http.HttpSession;
 
 import model.Groups;
 import model.GroupsDB;
-import model.TransactionsDB;
-import model.UserDB;
 
 /**
- * Servlet implementation class loginServlet
+ * Servlet implementation class groupSelectionServlet
  */
-@WebServlet("/loginServlet")
-public class loginServlet extends HttpServlet {
+@WebServlet("/groupSelectionServlet")
+public class groupSelectionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public loginServlet() {
+    public groupSelectionServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,26 +33,14 @@ public class loginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("uname");
-		String password = request.getParameter("pword");
-		int cID = UserDB.validateUser(username, password);
+		HttpSession session = request.getSession();
+		int userID = (int) session.getAttribute("userID");
 		
-		if(cID != -1) {
-			HttpSession session = request.getSession();
-			session.setMaxInactiveInterval(10*60);
-			session.setAttribute("userID", cID);
-			List<Groups> groups = GroupsDB.getGroupsUserIn(cID);
-			request.setAttribute("groups", groups);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
-			request.setAttribute("username", username);
-			System.out.println(cID);
-			System.out.println(username);
-			dispatcher.forward(request, response);
-		} else {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-			request.setAttribute("response", "Invalid Username or Password");
-			dispatcher.forward(request, response);	
-		}
+		List<Groups> groups = GroupsDB.getGroupsUserIn(userID);
+		request.setAttribute("groups", groups);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("groupSelection.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	/**

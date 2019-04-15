@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -13,20 +14,20 @@ import javax.servlet.http.HttpSession;
 
 import model.Groups;
 import model.GroupsDB;
-import model.TransactionsDB;
+import model.User;
 import model.UserDB;
 
 /**
- * Servlet implementation class loginServlet
+ * Servlet implementation class transactionServlet
  */
-@WebServlet("/loginServlet")
-public class loginServlet extends HttpServlet {
+@WebServlet("/transactionServlet")
+public class transactionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public loginServlet() {
+    public transactionServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,26 +36,26 @@ public class loginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("uname");
-		String password = request.getParameter("pword");
-		int cID = UserDB.validateUser(username, password);
+		String g = request.getParameter("group");
+		int groupID = Integer.parseInt(g);
 		
-		if(cID != -1) {
-			HttpSession session = request.getSession();
-			session.setMaxInactiveInterval(10*60);
-			session.setAttribute("userID", cID);
-			List<Groups> groups = GroupsDB.getGroupsUserIn(cID);
-			request.setAttribute("groups", groups);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
-			request.setAttribute("username", username);
-			System.out.println(cID);
-			System.out.println(username);
-			dispatcher.forward(request, response);
-		} else {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-			request.setAttribute("response", "Invalid Username or Password");
-			dispatcher.forward(request, response);	
+		List<Integer> userIDs = UserDB.getUsersInGroup(groupID);
+		
+		List<User> users = new ArrayList<User>();
+		System.out.println(userIDs);
+		for (int i = 0; i < userIDs.size(); i++) {
+			User u = new User();
+			u.setFirstName(UserDB.getFullNameByID(userIDs.get(i)));
+			u.setUserID(userIDs.get(i));
+			users.add(u);
 		}
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("groupID", groupID);
+		request.setAttribute("users", users);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("transaction.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	/**
